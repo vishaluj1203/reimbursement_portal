@@ -16,5 +16,13 @@ Rails.application.routes.draw do
 
   resources :employees, only: [ :index, :create, :show, :update, :destroy ]
 
-  resources :bills, only: [ :index, :create ]
+  resources :bills, only: [ :index, :create ] do
+    collection do
+      get :all
+    end
+    member do
+      patch :approve
+      patch :reject
+    end
+  end
 end
