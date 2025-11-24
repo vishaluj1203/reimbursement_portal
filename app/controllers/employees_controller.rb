@@ -4,8 +4,8 @@ class EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :update, :destroy]
 
   def index
-    @employees = User.all
-    render json: @employees, status: :ok
+    employees = User.employee.order(:id)
+    render json: employees, status: :ok
   end
 
   def show
@@ -14,6 +14,7 @@ class EmployeesController < ApplicationController
 
   def create
     @employee = User.new(employee_params)
+    @employee.employee!
     if @employee.save
       render json: @employee, status: :created
     else
@@ -37,12 +38,11 @@ class EmployeesController < ApplicationController
   private
 
   def set_employee
-    @employee = User.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: "Employee not found" }, status: :not_found
+    @employee = User.employee.find_by(id: params[:id])
+    return render json: { error: "Employee not found" }, status: :not_found unless @employee
   end
 
   def employee_params
-    params.require(:employee).permit(:name, :email, :password, :password_confirmation, :role, :department_id)
+    params.require(:employee).permit(:name, :email, :designation, :department_id, :password, :password_confirmation)
   end
 end
