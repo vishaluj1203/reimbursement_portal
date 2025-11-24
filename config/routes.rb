@@ -25,4 +25,6 @@ Rails.application.routes.draw do
       patch :reject
     end
   end
+  
+  get '/login-page', to: 'sessions#new'
 end
