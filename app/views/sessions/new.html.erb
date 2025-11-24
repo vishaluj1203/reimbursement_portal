@@ -1,0 +1,40 @@
+<h1>Login</h1>
+
+<form id="login-form">
+  <label>Email:</label>
+  <input type="email" name="email" required>
+  <br>
+  <label>Password:</label>
+  <input type="password" name="password" required>
+  <br>
+  <button type="submit">Login</button>
+</form>
+
+<div id="error-msg" style="color:red"></div>
+
+<script>
+  const form = document.getElementById('login-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = form.email.value;
+    const password = form.password.value;
+    const csrfToken = document.querySelector("meta[name='csrf-token']").content;
+
+
+    const response = await fetch('/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', "X-CSRF-Token": csrfToken },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include'
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert('Login successful!');
+      window.location.href = '/';
+    } else {
+      document.getElementById('error-msg').innerText = data.error;
+    }
+  });
+</script>
