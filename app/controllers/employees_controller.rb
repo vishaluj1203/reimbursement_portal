@@ -1,7 +1,7 @@
 class EmployeesController < ApplicationController
   before_action :require_login
   before_action :require_admin
-  before_action :set_employee, only: [:show, :update, :destroy]
+  before_action :set_employee, only: [ :show, :update, :destroy ]
 
   def index
     employees = User.employee.order(:id)
@@ -39,7 +39,7 @@ class EmployeesController < ApplicationController
 
   def set_employee
     @employee = User.employee.find_by(id: params[:id])
-    return render json: { error: "Employee not found" }, status: :not_found unless @employee
+    render json: { error: "Employee not found" }, status: :not_found unless @employee
   end
 
   def employee_params
