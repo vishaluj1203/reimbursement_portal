@@ -14,7 +14,7 @@ class EmployeesController < ApplicationController
 
   def create
     @employee = User.new(employee_params)
-    @employee.employee!
+    @employee.role = :employee
     if @employee.save
       render json: @employee, status: :created
     else
