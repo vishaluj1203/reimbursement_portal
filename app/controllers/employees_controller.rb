@@ -1,7 +1,7 @@
 class EmployeesController < ApplicationController
   before_action :require_login
   before_action :require_admin
-  before_action :set_employee, only: [:show, :update, :destroy]
+  before_action :set_employee, only: [ :show, :update, :destroy ]
 
   def index
     @employees = User.all

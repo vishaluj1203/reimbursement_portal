@@ -1,6 +1,6 @@
 class BillsController < ApplicationController
   before_action :require_login
-  before_action :require_employee, only: [:create]
+  before_action :require_employee, only: [ :create ]
 
   def index
     bills = current_user.bills.order(created_at: :desc)
